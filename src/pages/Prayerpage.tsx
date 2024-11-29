@@ -1,32 +1,38 @@
+import { Link, useParams } from "react-router";
+import { prayersData } from "../data/prayers";
+
 const Prayerpage = () => {
   return (
-    <section className="min-h-[81vh] md:min-h-[87vh] bg-secondary p-2 md:p-8">
-      <h2 className="text-xl mb-2 pt-2 md:mb-4 md:pt-4 font-semibold">
-        The Apostle's Creed:
-      </h2>
-      <p>
-        I believe in God, the Father almighty, Creator of heaven and earth, and
-        in Jesus Christ, His only Son, our Lord. He was conceived by the Holy
-        Spirit, and born of the Virgin Mary. He suffered under Pontius Pilate,
-        was crucified, died and was buried. He descended into hell. On the third
-        day He rose again. He ascended into heaven, and is seated at the right
-        hand of God the Father Almighty. He will come again to judge the living
-        and the dead. I believe in the Holy Spirit, the Holy Catholic Church,
-        the communion of saints, the forgiveness of sins, the resurrection of
-        the body, and life everlasting.
-        <p className="mt-2">Amen.</p>
-      </p>
-      <h2 className="text-xl my-2 md:my-4 font-semibold">
-        The Lord's Prayer -(Our Father)
-      </h2>
-      <p>
-        Our Father, Who art in Heaven, Hallowed be Thy Name. Thy Kingdom come,
-        Thy Will be done, On earth as it is in Heaven. Give us this day Our
-        daily bread, and Forgive us our trespasses as we forgive those who
-        trespass against us. And lead us not into temptation, but deliver us
-        from evil.
-        <p className="mt-2">Amen.</p>
-      </p>
+    <section className="min-h-[81vh] md:min-h-[80vh] bg-secondary p-2 md:p-8">
+      <h1 className="text-xl md:text-2xl font-semibold py-2">Prayer List</h1>
+      <div className="p-3 md:p-6 md:text-lg md:max-w-[50%] flex flex-col gap-2">
+        {prayersData.map((eachPrayerData, index) => {
+          return (
+            <Link to={`/prayers/${eachPrayerData.id}`} key={index}>
+              <li className="underline">{eachPrayerData.prayerHeading}</li>
+            </Link>
+          );
+        })}
+      </div>
+    </section>
+  );
+};
+
+export const EachPrayer = () => {
+  const { id } = useParams();
+  console.log(id);
+  const prayerToDisplay = prayersData.filter(
+    (eachPrayer) => eachPrayer.id === id
+  )[0];
+  return (
+    <section className="min-h-[81vh] md:min-h-[80vh] bg-secondary p-2 md:p-8">
+      <div className="md:max-w-[85%] mx-auto mb-20 md:mb-0">
+        <h1 className="text-xl md:text-2xl font-semibold py-2">
+          {prayerToDisplay.prayerHeading}
+        </h1>
+        <p className="md:mt-2">{prayerToDisplay.prayerContent}</p>
+        <p className="font-semibold text-center md:mt-2">Amen.</p>
+      </div>
     </section>
   );
 };

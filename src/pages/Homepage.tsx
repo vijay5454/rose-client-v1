@@ -1,6 +1,6 @@
 const Homepage = () => {
   return (
-    <section className="min-h-[81vh] md:min-h-[87vh] bg-secondary p-2 md:p-8">
+    <section className="min-h-[81vh] md:min-h-[80vh] bg-secondary p-2 md:p-8">
       <h2 className="text-xl mb-2 pt-2 md:mb-4 md:pt-4 font-semibold">
         Purpose of the website
       </h2>
