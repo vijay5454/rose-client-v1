@@ -28,10 +28,46 @@ const Navbar = () => {
         >
           <p className="font-bold text-xl">Prayers</p>
         </NavLink>
-        <p className="font-bold text-xl border-b-4 border-b-primary">
-          Holy Mass
-        </p>
-        <p className="font-bold text-xl">Bible</p>
+        <NavLink
+          to="/holy-mass"
+          className={({ isActive }) =>
+            isActive
+              ? "border-b-secondary border-b-4"
+              : "border-b-4 border-b-primary"
+          }
+        >
+          <p className="font-bold text-xl">Holy Mass</p>
+        </NavLink>
+        <NavLink
+          to="/holy-eucharist"
+          className={({ isActive }) =>
+            isActive
+              ? "border-b-secondary border-b-4"
+              : "border-b-4 border-b-primary"
+          }
+        >
+          <p className="font-bold text-xl">Holy Eucharist</p>
+        </NavLink>
+        <NavLink
+          to="/saints"
+          className={({ isActive }) =>
+            isActive
+              ? "border-b-secondary border-b-4"
+              : "border-b-4 border-b-primary"
+          }
+        >
+          <p className="font-bold text-xl">Saints</p>
+        </NavLink>
+        <NavLink
+          to="/bible"
+          className={({ isActive }) =>
+            isActive
+              ? "border-b-secondary border-b-4"
+              : "border-b-4 border-b-primary"
+          }
+        >
+          <p className="font-bold text-xl">Bible</p>
+        </NavLink>
       </div>
     </nav>
   );
