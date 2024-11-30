@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router";
 import Homepage from "./pages/Homepage";
 import Navlayout from "./components/Navlayout";
 import Prayerpage, { EachPrayer } from "./pages/Prayerpage";
-import Holymasspage from "./pages/Holymasspage";
+import Holymasspage from "./pages/HolyMasspage";
 import HolyEucharistpage from "./pages/HolyEucharistpage";
 import Saintspage from "./pages/Saintspage";
 import Biblepage from "./pages/Biblepage";
