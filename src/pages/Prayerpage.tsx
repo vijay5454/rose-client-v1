@@ -1,5 +1,6 @@
 import { Link, useParams } from "react-router";
 import { prayersData } from "../data/prayers";
+import parse from "html-react-parser";
 
 const Prayerpage = () => {
   return (
@@ -30,7 +31,9 @@ export const EachPrayer = () => {
         <h1 className="text-xl md:text-2xl font-semibold py-2">
           {prayerToDisplay.prayerHeading}
         </h1>
-        <p className="md:mt-2">{prayerToDisplay.prayerContent}</p>
+        <p className="md:mt-2 space-y-2">
+          {parse(prayerToDisplay.prayerContent)}
+        </p>
         <p className="font-semibold text-center md:mt-2">Amen.</p>
       </div>
     </section>
