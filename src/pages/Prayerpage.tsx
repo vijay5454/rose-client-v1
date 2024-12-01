@@ -4,7 +4,7 @@ import parse from "html-react-parser";
 
 const Prayerpage = () => {
   return (
-    <section className="min-h-[81vh] md:min-h-[80vh] bg-secondary p-2 md:p-8">
+    <section className="min-h-[81vh] md:min-h-[80vh] bg-secondary p-2 pb-20 md:p-8">
       <h1 className="text-xl md:text-2xl font-semibold py-2">Prayer List</h1>
       <div className="p-3 md:p-6 md:text-lg md:max-w-[50%] flex flex-col gap-2">
         {prayersData.map((eachPrayerData, index) => {
