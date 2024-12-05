@@ -48,6 +48,7 @@ function PrayerUploadPage() {
           placeholder="Enter Prayer Heading"
         />
         <textarea
+          rows={15}
           value={prayerPayload.prayerContent}
           onChange={(e) => {
             setPrayerPayload((prevValue) => {
