@@ -9,4 +9,11 @@ const prayerSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  prayerImages: {
+    type: [String],
+  },
 });
+
+const Prayer = mongoose.model("Prayer", prayerSchema);
+
+export { Prayer };
