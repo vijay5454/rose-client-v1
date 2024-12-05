@@ -15,6 +15,12 @@ app.get("/prayers", async (req, res) => {
   res.status(200).json(allPrayers);
 });
 
+app.get("/prayers/:id", async (req, res) => {
+  const { id } = req.params;
+  const singlePrayer = await Prayer.findById(id);
+  res.status(200).json(singlePrayer);
+});
+
 app.post("/prayers", async (req, res) => {
   const newPrayer = new Prayer({ ...req.body });
   console.log(newPrayer);

@@ -24,6 +24,7 @@ function PrayerUploadPage() {
       setPrayerPayload((prevValue) => {
         return { ...prevValue, prayerHeading: "", prayerContent: "" };
       });
+      alert("Prayer Upload successfully!");
     } catch (error) {
       console.log(error);
     } finally {
