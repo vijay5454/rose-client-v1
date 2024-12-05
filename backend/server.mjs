@@ -5,6 +5,7 @@ import cors from "cors";
 import { Prayer } from "./models/prayers.mjs";
 
 const app = express();
+const port = process.env.PORT || 5001;
 
 app.use(cors());
 
@@ -32,8 +33,8 @@ const serverStart = async () => {
   try {
     await mongoose.connect(process.env.MONGOOSE_URL);
     console.log(mongoose.connection.readyState);
-    app.listen(8012, () => {
-      console.log("Listening from port 8012");
+    app.listen(port, () => {
+      console.log("Listening from port" + port);
     });
   } catch (error) {
     console.log(error);
