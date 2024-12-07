@@ -1,5 +1,7 @@
 import axios from "axios";
+import { ArrowLeft } from "lucide-react";
 import { useState } from "react";
+import { Link } from "react-router";
 
 function PrayerUploadPage() {
   const [prayerPayload, setPrayerPayload] = useState({
@@ -33,8 +35,13 @@ function PrayerUploadPage() {
   };
   return (
     <div className="max-w-[90%] mx-auto py-5 md:py-12">
-      <h1 className="text-xl md:text-2xl">Prayers Upload</h1>
+      <h1 className="text-xl md:text-2xl text-center">Prayers Upload</h1>
       <hr className="my-3 md:mb-10" />
+      <div className="my-3">
+        <Link to="/">
+          <ArrowLeft />
+        </Link>
+      </div>
       <div className="flex flex-col gap-4 md:max-w-[60%] mx-auto">
         <input
           type="text"
