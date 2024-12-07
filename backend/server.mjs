@@ -11,15 +11,21 @@ app.use(cors());
 
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  return res.status(200).json({
+    message: "Hello buddy!",
+  });
+});
+
 app.get("/prayers", async (req, res) => {
   const allPrayers = await Prayer.find();
-  res.status(200).json(allPrayers);
+  return res.status(200).json(allPrayers);
 });
 
 app.get("/prayers/:id", async (req, res) => {
   const { id } = req.params;
   const singlePrayer = await Prayer.findById(id);
-  res.status(200).json(singlePrayer);
+  return res.status(200).json(singlePrayer);
 });
 
 app.post("/prayers", async (req, res) => {
