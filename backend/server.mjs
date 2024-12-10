@@ -20,14 +20,25 @@ app.get("/", (req, res) => {
 //Get all Prayers
 app.get("/prayers", async (req, res) => {
   const allPrayers = await Prayer.find();
+  if (allPrayers.length === 0) {
+    return res.status(404).json({
+      message: "No Prayers Have been found!",
+    });
+  }
   return res.status(200).json(allPrayers);
 });
 
 //Get one Prayer
 app.get("/prayers/:id", async (req, res) => {
   const { id } = req.params;
-  const singlePrayer = await Prayer.findById(id);
-  return res.status(200).json(singlePrayer);
+  try {
+    const singlePrayer = await Prayer.findById(id);
+    return res.status(200).json(singlePrayer);
+  } catch (error) {
+    return res.status(404).json({
+      message: "Prayer for the id not found!",
+    });
+  }
 });
 
 //Create one Prayer
