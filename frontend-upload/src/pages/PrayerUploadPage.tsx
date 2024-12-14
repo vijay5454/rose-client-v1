@@ -1,15 +1,16 @@
-import axios from "axios";
 import { ArrowLeft } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router";
+import useApi from "../hooks/useApi";
 
 function PrayerUploadPage() {
+  const url = import.meta.env.VITE_API_URL;
   const [prayerPayload, setPrayerPayload] = useState({
     prayerHeading: "",
     prayerContent: "",
     prayerImages: [],
   });
-  const [loading, setLoading] = useState(false);
+  const { loading, updateOptions, refetch } = useApi(url + "/prayers");
   const handlePrayerSubmit = async () => {
     if (
       prayerPayload.prayerHeading === "" ||
@@ -18,19 +19,23 @@ function PrayerUploadPage() {
       alert("Please give Prayer heading and Prayer content!");
       return;
     }
+    updateOptions({
+      method: "POST",
+      data: prayerPayload,
+    });
     try {
-      setLoading(true);
-      const url = import.meta.env.VITE_API_URL;
-      const response = await axios.post(url + "/prayers", prayerPayload);
-      console.log(response.data);
-      setPrayerPayload((prevValue) => {
-        return { ...prevValue, prayerHeading: "", prayerContent: "" };
-      });
-      alert("Prayer Upload successfully!");
+      const response = await refetch();
+      if (response) {
+        // console.log("Data:", data, "Response:", response);
+        alert("Prayer created successfully!");
+        setPrayerPayload({
+          prayerHeading: "",
+          prayerContent: "",
+          prayerImages: [],
+        });
+      }
     } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
+      alert(error);
     }
   };
   return (

@@ -1,7 +1,7 @@
-import axios from "axios";
 import { ArrowLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router";
+import useApi from "../hooks/useApi";
 
 type Prayer = {
   _id: string;
@@ -12,23 +12,15 @@ type Prayer = {
 };
 
 function PrayerEditPage() {
-  const [prayersData, setPrayersData] = useState<Prayer[]>([]);
-  const [loading, setLoading] = useState(false);
-  const fetchAllPrayers = async () => {
-    const url = import.meta.env.VITE_API_URL;
-    try {
-      setLoading(true);
-      const response = await axios.get(url + "/prayers");
-      setPrayersData(response.data);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-  useEffect(() => {
-    fetchAllPrayers();
-  }, []);
+  const url = import.meta.env.VITE_API_URL;
+  const { data, error, loading } = useApi<Prayer[]>(url + "/prayers");
+  if (error) {
+    return (
+      <div className="py-4 md:max-w-[80%] mx-auto">
+        <h1>Error happened. Sorry for inconvenience.</h1>
+      </div>
+    );
+  }
   return (
     <div className="py-4 md:max-w-[80%] mx-auto">
       <h1 className="text-2xl text-center">List of Prayers to Edit/Delete</h1>
@@ -44,7 +36,7 @@ function PrayerEditPage() {
         <div className="px-2 underline mt-2">
           {loading
             ? "Loading..."
-            : prayersData.map((eachPrayer, index) => {
+            : data?.map((eachPrayer, index) => {
                 return (
                   <li key={index}>
                     <Link to={`/prayer-edit/${eachPrayer._id}`}>
@@ -62,6 +54,11 @@ function PrayerEditPage() {
 export function EditHeadingContent() {
   //Getting Params from the url
   const { id } = useParams();
+  const url = import.meta.env.VITE_API_URL;
+  //Initialize custom hook
+  const { data, loading, error, refetch, updateOptions } = useApi<Prayer>(
+    url + "/prayers/" + id
+  );
   //State to hold single prayer for edit/delete.
   const [singlePrayer, setSinglePrayer] = useState<Prayer>({
     _id: "",
@@ -70,25 +67,13 @@ export function EditHeadingContent() {
     prayerImages: [],
     __v: 0,
   });
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
-
-  //Fetch the prayer using id
-  const fetchPrayerbyId = async () => {
-    const url = import.meta.env.VITE_API_URL;
-    try {
-      setLoading(true);
-      const response = await axios.get(url + "/prayers/" + id);
-      setSinglePrayer(response.data);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
   useEffect(() => {
-    fetchPrayerbyId();
-  }, []);
+    if (data) {
+      setSinglePrayer(data); //Set the response to local state.
+    }
+  }, [data]);
+
+  const navigate = useNavigate();
 
   const handlePrayerSubmit = async () => {
     if (
@@ -98,40 +83,39 @@ export function EditHeadingContent() {
       alert("Please give Prayer heading and Prayer content!");
       return;
     }
+    //Update the options for put request
+    updateOptions({
+      method: "PUT",
+      data: singlePrayer,
+    });
     try {
-      setLoading(true);
-      const url = import.meta.env.VITE_API_URL;
-      const response = await axios.put(url + "/prayers/" + id, singlePrayer);
-      console.log(response.data);
-      setSinglePrayer((prevValue) => {
-        return { ...prevValue, prayerHeading: "", prayerContent: "" };
-      });
-      alert("Prayer Edited successfully!");
-      navigate("/prayer-edit");
+      const response = await refetch(); //Do refetch with new updated options.
+      if (response) {
+        alert("Prayer edited successfully!");
+        navigate("/prayer-edit");
+      }
     } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
+      alert(error);
     }
   };
 
   const handlePrayerDelete = async () => {
+    updateOptions({
+      method: "DELETE",
+    });
     try {
-      setLoading(true);
-      const url = import.meta.env.VITE_API_URL;
-      const response = await axios.delete(url + "/prayers/" + id);
-      console.log(response.data);
-      setSinglePrayer((prevValue) => {
-        return { ...prevValue, prayerHeading: "", prayerContent: "" };
-      });
-      alert("Prayer Deleted successfully!");
-      navigate("/prayer-edit");
+      const response = await refetch(); //Do refetch with new updated options.
+      if (response) {
+        alert("Deleted the prayer successfully!");
+        navigate("/prayer-edit");
+      }
     } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
+      alert(error);
     }
   };
+  if (error) {
+    return <div>Error Happened</div>;
+  }
   return (
     <div className="max-w-[90%] mx-auto py-5 md:py-12">
       <h1 className="text-xl md:text-2xl text-center">Edit/Delete Prayer</h1>
