@@ -145,9 +145,11 @@ export function EditHeadingContent() {
         />
       </div>
       <div className="text-center mt-4 space-x-4">
-        <button className="bg-gray-500 py-2 px-4 rounded-md text-white">
-          <Link to="/prayer-edit">Go back</Link>
-        </button>
+        <Link to="/prayer-edit">
+          <button className="bg-gray-500 py-2 px-4 rounded-md text-white">
+            Go back
+          </button>
+        </Link>
         <button
           className="bg-gray-500 py-2 px-4 rounded-md text-white hover:bg-gray-300 hover:text-black"
           onClick={handlePrayerSubmit}

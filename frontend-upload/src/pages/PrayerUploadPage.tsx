@@ -3,9 +3,15 @@ import { useState } from "react";
 import { Link } from "react-router";
 import useApi from "../hooks/useApi";
 
+interface Prayer {
+  prayerHeading: string;
+  prayerContent: string;
+  prayerImages: File[];
+}
+
 function PrayerUploadPage() {
   const url = import.meta.env.VITE_API_URL;
-  const [prayerPayload, setPrayerPayload] = useState({
+  const [prayerPayload, setPrayerPayload] = useState<Prayer>({
     prayerHeading: "",
     prayerContent: "",
     prayerImages: [],
@@ -19,9 +25,19 @@ function PrayerUploadPage() {
       alert("Please give Prayer heading and Prayer content!");
       return;
     }
+    //Setting up payload using local payload state
+    const payload = new FormData();
+    payload.append("prayerHeading", prayerPayload.prayerHeading);
+    payload.append("prayerContent", prayerPayload.prayerContent);
+    prayerPayload.prayerImages.forEach((eachImage) => {
+      payload.append("images", eachImage);
+    });
     updateOptions({
       method: "POST",
-      data: prayerPayload,
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      data: payload,
     });
     try {
       const response = await refetch();
@@ -36,6 +52,15 @@ function PrayerUploadPage() {
       }
     } catch (error) {
       alert(error);
+    }
+  };
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files) {
+      setPrayerPayload((prevValue) => {
+        return { ...prevValue, prayerImages: Array.from(files) };
+      });
     }
   };
   return (
@@ -70,6 +95,18 @@ function PrayerUploadPage() {
           className="border-gray-300 border-2 rounded-md focus:border-gray-600 outline-none p-2"
           placeholder="Enter Prayer content"
         />
+        <div className="flex flex-col">
+          <label htmlFor="prayer-image" className="font-semibold">
+            Choose images for prayer
+          </label>
+          <input
+            type="file"
+            id="prayer-image"
+            accept="image/*"
+            multiple
+            onChange={handleFileSelect}
+          />
+        </div>
       </div>
       <div className="text-center mt-4">
         <button
