@@ -8,8 +8,13 @@ const Navbar = () => {
   return (
     <>
       <div className="bg-primary">
-        <div className="w-[75%] mx-auto">
-          <img src={img1} width={250} height={100} className="h-32 w-full" />
+        <div className="w-[75%] mx-auto md:h-[20vh] md:w-[40%]">
+          <img
+            src={img1}
+            width={250}
+            height={100}
+            className="h-32 w-full md:h-full"
+          />
         </div>
       </div>
       <nav
