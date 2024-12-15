@@ -1,6 +1,5 @@
 import { Outlet } from "react-router";
 import Navbar from "./Navbar";
-import BottomNavbar from "./BottomNavbar";
 
 const Navlayout = () => {
   return (
@@ -9,7 +8,6 @@ const Navlayout = () => {
         <Navbar />
         <Outlet />
       </main>
-      <BottomNavbar />
     </>
   );
 };
