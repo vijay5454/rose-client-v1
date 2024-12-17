@@ -1,7 +1,8 @@
 import { ArrowLeft } from "lucide-react";
 import { useState } from "react";
-import { Link } from "react-router";
-import useApi from "../hooks/useApi";
+import { Link, useNavigate } from "react-router";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
 
 interface Prayer {
   prayerHeading: string;
@@ -16,7 +17,25 @@ function PrayerUploadPage() {
     prayerContent: "",
     prayerImages: [],
   });
-  const { loading, updateOptions, refetch } = useApi(url + "/prayers");
+  const navigate = useNavigate();
+  const uploadPrayer = useMutation({
+    mutationFn: async (payLoad: FormData) => {
+      const response = await axios.post(url + "/prayers", payLoad);
+      return response.data;
+    },
+    onSuccess: () => {
+      alert("Prayer uploaded successfully!");
+      navigate("/");
+    },
+    onError: (error) => {
+      alert(error);
+      setPrayerPayload({
+        prayerHeading: "",
+        prayerContent: "",
+        prayerImages: [],
+      });
+    },
+  });
   const handlePrayerSubmit = async () => {
     if (
       prayerPayload.prayerHeading === "" ||
@@ -32,27 +51,7 @@ function PrayerUploadPage() {
     prayerPayload.prayerImages.forEach((eachImage) => {
       payload.append("images", eachImage);
     });
-    updateOptions({
-      method: "POST",
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-      data: payload,
-    });
-    try {
-      const response = await refetch();
-      if (response) {
-        // console.log("Data:", data, "Response:", response);
-        alert("Prayer created successfully!");
-        setPrayerPayload({
-          prayerHeading: "",
-          prayerContent: "",
-          prayerImages: [],
-        });
-      }
-    } catch (error) {
-      alert(error);
-    }
+    uploadPrayer.mutate(payload);
   };
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -112,7 +111,7 @@ function PrayerUploadPage() {
         <button
           className="bg-gray-500 py-2 px-4 rounded-md text-white hover:bg-gray-300 hover:text-black"
           onClick={handlePrayerSubmit}
-          disabled={loading}
+          disabled={uploadPrayer.isLoading}
         >
           Submit
         </button>

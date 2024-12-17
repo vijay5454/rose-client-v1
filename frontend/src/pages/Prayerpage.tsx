@@ -2,7 +2,8 @@ import { Link, useParams } from "react-router";
 // import { prayersData } from "../data/prayers";
 import parse from "html-react-parser";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 type Prayer = {
   _id: string;
@@ -11,29 +12,33 @@ type Prayer = {
   prayerImages: string[];
   __v: number;
 };
+const url = import.meta.env.VITE_API_URL;
 
 const Prayerpage = () => {
   const [prayersData, setPrayersData] = useState<Prayer[]>([]);
-  const [loading, setLoading] = useState(false);
   const fetchAllPrayers = async () => {
-    const url = import.meta.env.VITE_API_URL;
-    try {
-      setLoading(true);
-      const response = await axios.get(url + "/prayers");
-      setPrayersData(response.data);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
+    const response = await axios.get(url + "/prayers");
+    setPrayersData(response.data);
+    return response.data;
   };
-  useEffect(() => {
-    fetchAllPrayers();
-  }, []);
+
+  const { isLoading, error } = useQuery({
+    queryKey: ["fetchAllPrayers"],
+    queryFn: fetchAllPrayers,
+  });
+
+  if (error) {
+    return (
+      <section className="min-h-[81vh] md:min-h-[80vh] bg-secondary p-2 md:p-8">
+        <h3>Error happened.</h3>
+      </section>
+    );
+  }
+
   return (
     <section className="min-h-[81vh] md:min-h-[80vh] bg-secondary p-2 pb-20 md:p-8">
       <h1 className="text-xl md:text-2xl font-semibold py-2">Prayer List</h1>
-      {loading ? (
+      {isLoading ? (
         <h3>Loading...</h3>
       ) : (
         <>
@@ -68,26 +73,28 @@ export const EachPrayer = () => {
     prayerImages: [],
     __v: 0,
   });
-  const [loading, setLoading] = useState(false);
 
   const fetchPrayerbyId = async () => {
-    const url = import.meta.env.VITE_API_URL;
-    try {
-      setLoading(true);
-      const response = await axios.get(url + "/prayers/" + id);
-      setSinglePrayer(response.data);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
+    const response = await axios.get(url + "/prayers/" + id);
+    setSinglePrayer(response.data);
+    return response.data;
   };
-  useEffect(() => {
-    fetchPrayerbyId();
-  }, []);
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["fetchSinglePrayer"],
+    queryFn: fetchPrayerbyId,
+  });
+  console.log("fetched single prayer data", data);
+  if (error) {
+    return (
+      <section className="min-h-[81vh] md:min-h-[80vh] bg-secondary p-2 md:p-8">
+        <h3>Error happened.</h3>
+      </section>
+    );
+  }
   return (
     <section className="min-h-[81vh] md:min-h-[80vh] bg-secondary p-2 md:p-8">
-      {loading ? (
+      {isLoading ? (
         <h3>Loading...</h3>
       ) : (
         <div className="md:max-w-[85%] mx-auto mb-20 md:mb-0">
