@@ -27,6 +27,14 @@ const Prayerpage = () => {
     queryFn: fetchAllPrayers,
   });
 
+  if (isLoading) {
+    return (
+      <section className="min-h-[81vh] md:min-h-[80vh] bg-secondary p-2 md:p-8">
+        <h3>Loading...</h3>
+      </section>
+    );
+  }
+
   if (error) {
     return (
       <section className="min-h-[81vh] md:min-h-[80vh] bg-secondary p-2 md:p-8">
@@ -38,27 +46,18 @@ const Prayerpage = () => {
   return (
     <section className="min-h-[81vh] md:min-h-[80vh] bg-secondary p-2 pb-20 md:p-8">
       <h1 className="text-xl md:text-2xl font-semibold py-2">Prayer List</h1>
-      {isLoading ? (
-        <h3>Loading...</h3>
+      {prayersData.length === 0 ? (
+        <h1>No Prayers Found!</h1>
       ) : (
-        <>
-          {" "}
-          {prayersData.length === 0 ? (
-            <h1>No Prayers Found!</h1>
-          ) : (
-            <div className="p-3 md:p-6 md:text-lg md:max-w-[50%] flex flex-col gap-2">
-              {prayersData.map((eachPrayerData, index) => {
-                return (
-                  <Link to={`/prayers/${eachPrayerData._id}`} key={index}>
-                    <li className="underline">
-                      {eachPrayerData.prayerHeading}
-                    </li>
-                  </Link>
-                );
-              })}
-            </div>
-          )}
-        </>
+        <div className="p-3 md:p-6 md:text-lg md:max-w-[50%] flex flex-col gap-2">
+          {prayersData.map((eachPrayerData, index) => {
+            return (
+              <Link to={`/prayers/${eachPrayerData._id}`} key={index}>
+                <li className="underline">{eachPrayerData.prayerHeading}</li>
+              </Link>
+            );
+          })}
+        </div>
       )}
     </section>
   );
@@ -85,6 +84,15 @@ export const EachPrayer = () => {
     queryFn: fetchPrayerbyId,
   });
   console.log("fetched single prayer data", data);
+
+  if (isLoading) {
+    return (
+      <section className="min-h-[81vh] md:min-h-[80vh] bg-secondary p-2 md:p-8">
+        <h3>Loading...</h3>
+      </section>
+    );
+  }
+
   if (error) {
     return (
       <section className="min-h-[81vh] md:min-h-[80vh] bg-secondary p-2 md:p-8">
@@ -94,22 +102,18 @@ export const EachPrayer = () => {
   }
   return (
     <section className="min-h-[81vh] md:min-h-[80vh] bg-secondary p-2 md:p-8">
-      {isLoading ? (
-        <h3>Loading...</h3>
-      ) : (
-        <div className="md:max-w-[85%] mx-auto mb-20 md:mb-0">
-          <h1 className="text-xl md:text-2xl font-semibold py-2">
-            {singlePrayer.prayerHeading}
-          </h1>
-          {singlePrayer.prayerImages.length !== 0 && (
-            <ImageComponent images={singlePrayer.prayerImages} />
-          )}
-          <div className="md:mt-2 space-y-2">
-            {parse(singlePrayer.prayerContent)}
-          </div>
-          <p className="font-semibold text-center md:mt-2">Amen.</p>
+      <div className="md:max-w-[85%] mx-auto mb-20 md:mb-0">
+        <h1 className="text-xl md:text-2xl font-semibold py-2 text-center">
+          {singlePrayer.prayerHeading}
+        </h1>
+        {singlePrayer.prayerImages.length !== 0 && (
+          <ImageComponent images={singlePrayer.prayerImages} />
+        )}
+        <div className="md:mt-2 space-y-2 text-center">
+          {parse(singlePrayer.prayerContent)}
         </div>
-      )}
+        <p className="font-semibold text-center md:mt-2">Amen.</p>
+      </div>
     </section>
   );
 };
@@ -118,7 +122,10 @@ const ImageComponent = (props: { images: string[] }) => {
   const images = props.images;
   return images.map((eachImage, index) => {
     return (
-      <div key={index} className="mb-4 rounded-md overflow-hidden">
+      <div
+        key={index}
+        className="mb-4 rounded-md overflow-hidden mx-auto md:w-[35%] md:h-[35%]"
+      >
         <img
           src={eachImage}
           alt="prayerImages"
