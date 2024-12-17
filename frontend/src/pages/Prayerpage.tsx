@@ -101,6 +101,9 @@ export const EachPrayer = () => {
           <h1 className="text-xl md:text-2xl font-semibold py-2">
             {singlePrayer.prayerHeading}
           </h1>
+          {singlePrayer.prayerImages.length !== 0 && (
+            <ImageComponent images={singlePrayer.prayerImages} />
+          )}
           <div className="md:mt-2 space-y-2">
             {parse(singlePrayer.prayerContent)}
           </div>
@@ -109,6 +112,21 @@ export const EachPrayer = () => {
       )}
     </section>
   );
+};
+
+const ImageComponent = (props: { images: string[] }) => {
+  const images = props.images;
+  return images.map((eachImage, index) => {
+    return (
+      <div key={index} className="mb-4 rounded-md overflow-hidden">
+        <img
+          src={eachImage}
+          alt="prayerImages"
+          className="w-full h-full object-cover"
+        />
+      </div>
+    );
+  });
 };
 
 export default Prayerpage;
