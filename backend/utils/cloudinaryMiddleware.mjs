@@ -15,6 +15,11 @@ const storage = new CloudinaryStorage({
   params: {
     folder: "prayer-uploads", // Folder in Cloudinary
     allowed_formats: ["jpg", "jpeg", "png"], // Allowed file formats
+    transformation: [
+      {
+        quality: "auto",
+      },
+    ],
   },
 });
 
