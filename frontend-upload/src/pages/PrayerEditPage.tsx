@@ -8,7 +8,7 @@ type Prayer = {
   _id: string;
   prayerHeading: string;
   prayerContent: string;
-  prayerImages: string[];
+  prayerImages: File[];
   __v: number;
 };
 const url = import.meta.env.VITE_API_URL;
@@ -19,7 +19,7 @@ function PrayerEditPage() {
     return response.data;
   };
 
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading, error, isFetching } = useQuery({
     queryKey: ["fetchAllPrayers"],
     queryFn: fetchAllPrayers,
   });
@@ -44,7 +44,7 @@ function PrayerEditPage() {
       <div className="mt-4">
         <h3 className="px-3 text-xl">List of Prayers:</h3>
         <div className="px-2 underline mt-2">
-          {isLoading
+          {isLoading || isFetching
             ? "Loading..."
             : data?.map((eachPrayer: Prayer, index: number) => {
                 return (
@@ -65,7 +65,7 @@ export function EditHeadingContent() {
   //Getting Params from the url
   const { id } = useParams();
   //State to hold single prayer for edit/delete.
-  const [singlePrayer, setSinglePrayer] = useState<Prayer>({
+  const [singlePrayerPayload, setSinglePrayerPayload] = useState<Prayer>({
     _id: "",
     prayerContent: "",
     prayerHeading: "",
@@ -74,20 +74,20 @@ export function EditHeadingContent() {
   });
   const navigate = useNavigate();
 
-  const { isLoading, error } = useQuery({
+  const { error } = useQuery({
     queryKey: ["fetchPrayerbyId"],
     queryFn: async () => {
       const response = await axios.get(url + "/prayers/" + id);
       return response.data;
     },
     onSuccess: (data) => {
-      setSinglePrayer(data);
+      setSinglePrayerPayload(data);
     },
   });
 
   const editPrayer = useMutation({
-    mutationFn: async (singlePrayer: Prayer) => {
-      const response = await axios.put(url + "/prayers/" + id, singlePrayer);
+    mutationFn: async (payload: FormData) => {
+      const response = await axios.put(url + "/prayers/" + id, payload);
       return response.data;
     },
     onSuccess: () => {
@@ -104,15 +104,31 @@ export function EditHeadingContent() {
     },
   });
 
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files) {
+      setSinglePrayerPayload((prevValue) => {
+        return { ...prevValue, prayerImages: Array.from(files) };
+      });
+    }
+  };
+
   const handlePrayerSubmit = async () => {
     if (
-      singlePrayer.prayerHeading === "" ||
-      singlePrayer.prayerContent === ""
+      singlePrayerPayload.prayerHeading === "" ||
+      singlePrayerPayload.prayerContent === ""
     ) {
       alert("Please give Prayer heading and Prayer content!");
       return;
     }
-    editPrayer.mutate(singlePrayer);
+    //Setting up payload using local payload state
+    const payload = new FormData();
+    payload.append("prayerHeading", singlePrayerPayload.prayerHeading);
+    payload.append("prayerContent", singlePrayerPayload.prayerContent);
+    singlePrayerPayload.prayerImages.forEach((eachImage) => {
+      payload.append("images", eachImage);
+    });
+    editPrayer.mutate(payload);
   };
 
   const handlePrayerDelete = async () => {
@@ -128,9 +144,9 @@ export function EditHeadingContent() {
       <div className="flex flex-col gap-4 md:max-w-[60%] mx-auto">
         <input
           type="text"
-          value={singlePrayer.prayerHeading}
+          value={singlePrayerPayload.prayerHeading}
           onChange={(e) => {
-            setSinglePrayer((prevValue) => {
+            setSinglePrayerPayload((prevValue) => {
               return { ...prevValue, prayerHeading: e.target.value };
             });
           }}
@@ -139,15 +155,27 @@ export function EditHeadingContent() {
         />
         <textarea
           rows={15}
-          value={singlePrayer.prayerContent}
+          value={singlePrayerPayload.prayerContent}
           onChange={(e) => {
-            setSinglePrayer((prevValue) => {
+            setSinglePrayerPayload((prevValue) => {
               return { ...prevValue, prayerContent: e.target.value };
             });
           }}
           className="border-gray-300 border-2 rounded-md focus:border-gray-600 outline-none p-2"
           placeholder="Enter Prayer content"
         />
+        <div className="flex flex-col">
+          <label htmlFor="prayer-image" className="font-semibold">
+            Choose images for prayer
+          </label>
+          <input
+            type="file"
+            id="prayer-image"
+            accept="image/*"
+            multiple
+            onChange={handleFileSelect}
+          />
+        </div>
       </div>
       <div className="text-center mt-4 space-x-4">
         <Link to="/prayer-edit">
@@ -156,16 +184,16 @@ export function EditHeadingContent() {
           </button>
         </Link>
         <button
-          className="bg-gray-500 py-2 px-4 rounded-md text-white hover:bg-gray-300 hover:text-black"
+          className="bg-gray-500 py-2 px-4 rounded-md text-white hover:bg-gray-300 hover:text-black disabled:bg-gray-300 disabled:text-black"
           onClick={handlePrayerSubmit}
-          disabled={isLoading}
+          disabled={editPrayer.isLoading}
         >
           Submit
         </button>
         <button
-          className="bg-red-500 py-2 px-4 rounded-md text-white hover:bg-red-300 hover:text-black"
+          className="bg-red-500 py-2 px-4 rounded-md text-white hover:bg-red-300 hover:text-black disabled:bg-red-300 disabled:text-black"
           onClick={handlePrayerDelete}
-          disabled={isLoading}
+          disabled={deletePrayer.isLoading}
         >
           Delete
         </button>

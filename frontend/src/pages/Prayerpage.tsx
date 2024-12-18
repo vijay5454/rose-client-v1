@@ -22,12 +22,12 @@ const Prayerpage = () => {
     return response.data;
   };
 
-  const { isLoading, error } = useQuery({
+  const { isLoading, error, isFetching } = useQuery({
     queryKey: ["fetchAllPrayers"],
     queryFn: fetchAllPrayers,
   });
 
-  if (isLoading) {
+  if (isLoading || isFetching) {
     return (
       <section className="min-h-[81vh] md:min-h-[80vh] bg-secondary p-2 md:p-8">
         <h3>Loading...</h3>
@@ -75,17 +75,18 @@ export const EachPrayer = () => {
 
   const fetchPrayerbyId = async () => {
     const response = await axios.get(url + "/prayers/" + id);
-    setSinglePrayer(response.data);
     return response.data;
   };
 
-  const { data, isLoading, error } = useQuery({
+  const { isLoading, error, isFetching } = useQuery({
     queryKey: ["fetchSinglePrayer"],
     queryFn: fetchPrayerbyId,
+    onSuccess: (data) => {
+      setSinglePrayer(data);
+    },
   });
-  console.log("fetched single prayer data", data);
 
-  if (isLoading) {
+  if (isLoading || isFetching) {
     return (
       <section className="min-h-[81vh] md:min-h-[80vh] bg-secondary p-2 md:p-8">
         <h3>Loading...</h3>

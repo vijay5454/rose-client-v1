@@ -109,7 +109,7 @@ function PrayerUploadPage() {
       </div>
       <div className="text-center mt-4">
         <button
-          className="bg-gray-500 py-2 px-4 rounded-md text-white hover:bg-gray-300 hover:text-black"
+          className="bg-gray-500 py-2 px-4 rounded-md text-white hover:bg-gray-300 hover:text-black disabled:bg-gray-300 disabled:text-black"
           onClick={handlePrayerSubmit}
           disabled={uploadPrayer.isLoading}
         >

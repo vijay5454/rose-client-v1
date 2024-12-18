@@ -58,12 +58,20 @@ export const createNewPrayer = async (req, res) => {
 export const editPrayer = async (req, res) => {
   const { id } = req.params;
   const { prayerHeading, prayerContent } = req.body;
+  if (!prayerContent || !prayerHeading) {
+    return res.status(400).json({
+      message: "Bad Request",
+    });
+  }
+  const files = req.files;
+  const fileUrls = files.map((file) => file.path); // Cloudinary URLs
   try {
     const updatedPrayer = await Prayer.findByIdAndUpdate(
       id,
       {
         prayerHeading,
         prayerContent,
+        prayerImages: fileUrls,
       },
       {
         new: true,
