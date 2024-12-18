@@ -103,3 +103,27 @@ export const deletePrayer = async (req, res) => {
     return res.status(400).json({ message: "Error happened", Error: error });
   }
 };
+
+//Get prayers matched for given param
+export const searchPrayer = async (req, res) => {
+  const { keyword } = req.query;
+  if (!keyword) {
+    return res.status(400).json({
+      message: "Bad Request",
+    });
+  }
+  try {
+    const results = await Prayer.find(
+      { $text: { $search: keyword } },
+      { score: { $meta: "textScore" }, prayerHeading: 1 } // Include relevance score in results
+    ).sort({ score: { $meta: "textScore" } }); // Sort by relevance
+    return res.status(200).json({
+      data: results,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "Internal Server error",
+    });
+  }
+};

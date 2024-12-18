@@ -14,6 +14,8 @@ const prayerSchema = new mongoose.Schema({
   },
 });
 
+prayerSchema.index({ prayerHeading: "text", prayerContent: "text" });
+
 const Prayer = mongoose.model("Prayer", prayerSchema);
 
 export { Prayer };

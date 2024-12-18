@@ -5,13 +5,15 @@ import {
   editPrayer,
   getAllPrayers,
   getOnePrayer,
+  searchPrayer,
 } from "../controllers/prayerController.mjs";
-import { uploadMiddleware } from "../utils/cloudinaryMiddleware.mjs";
+import { uploadImageMiddleware } from "../utils/cloudinaryMiddleware.mjs";
 
 export const router = express.Router();
 
 router.get("/prayers", getAllPrayers);
 router.get("/prayers/:id", getOnePrayer);
-router.post("/prayers", uploadMiddleware, createNewPrayer);
-router.put("/prayers/:id", uploadMiddleware, editPrayer);
+router.post("/prayers", uploadImageMiddleware, createNewPrayer);
+router.put("/prayers/:id", uploadImageMiddleware, editPrayer);
 router.delete("/prayers/:id", deletePrayer);
+router.get("/search", searchPrayer);

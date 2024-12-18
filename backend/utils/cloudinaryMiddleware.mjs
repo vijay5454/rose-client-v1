@@ -10,22 +10,75 @@ cloudinary.config({
 });
 
 // Cloudinary storage setup
-const storage = new CloudinaryStorage({
+const imageStorage = new CloudinaryStorage({
   cloudinary,
   params: {
     folder: "prayer-uploads", // Folder in Cloudinary
     allowed_formats: ["jpg", "jpeg", "png"], // Allowed file formats
+    transformation: [
+      {
+        quality: "auto",
+      },
+    ],
   },
 });
 
-const upload = multer({ storage }).array("images", 10); // Middleware for handling multiple files
+const videoStorage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: "rosa-client-videos", // Folder name in Cloudinary
+    resource_type: "video", // Specify the resource type as video
+    format: async (req, file) => "mp4", // Convert the video to MP4 format
+    transformation: [
+      { width: 720, height: 480, crop: "limit" }, // Limit resolution to 720x480
+      { quality: "auto" }, // Adjust quality automatically
+      { fetch_format: "auto" }, // Deliver in the most optimized format
+    ],
+  },
+});
+
+const imageUpload = multer({ storage: imageStorage }).array("images", 10); // Middleware for handling multiple files
+const videoUpload = multer({ storage: videoStorage }).single("video");
 
 // Enhanced Middleware to Handle Errors Gracefully
-export const uploadMiddleware = async (req, res, next) => {
+export const uploadImageMiddleware = async (req, res, next) => {
   try {
     // Wrap Multer's upload function in a promise to handle errors
     await new Promise((resolve, reject) => {
-      upload(req, res, (err) => {
+      imageUpload(req, res, (err) => {
+        if (err) {
+          reject(err); // Forward any Multer-specific errors
+        } else {
+          resolve();
+        }
+      });
+    });
+
+    // If successful, proceed to the next middleware or controller
+    next();
+  } catch (error) {
+    // Catch and handle errors
+    if (error.code === "LIMIT_UNEXPECTED_FILE") {
+      // Multer-specific error for unexpected file field
+      return res.status(400).json({
+        error: "Too many files uploaded or invalid file field",
+        details: error.message,
+      });
+    }
+
+    // Handle other types of errors
+    res.status(500).json({
+      error: "File upload failed",
+      details: error.message || "An unexpected error occurred",
+    });
+  }
+};
+// Enhanced Middleware to Handle Errors Gracefully
+export const uploadVideoMiddleware = async (req, res, next) => {
+  try {
+    // Wrap Multer's upload function in a promise to handle errors
+    await new Promise((resolve, reject) => {
+      videoUpload(req, res, (err) => {
         if (err) {
           reject(err); // Forward any Multer-specific errors
         } else {

@@ -1,10 +1,8 @@
 import { NavLink } from "react-router";
 import img1 from "../assets/anthusmedia.png";
-import { Rows4, X, Search } from "lucide-react";
-import { useState } from "react";
+import { Search } from "lucide-react";
 
 const Navbar = () => {
-  const [showSidebar, setShowSidebar] = useState(false);
   return (
     <>
       <div className="bg-primary">
@@ -17,21 +15,8 @@ const Navbar = () => {
           />
         </div>
       </div>
-      <nav
-        className={`fixed h-[100vh] top-0 w-[60%] bg-primary md:static md:h-auto md:w-[100%] transition-all duration-300 ${
-          showSidebar ? "right-0" : "-right-[100%]"
-        }`}
-      >
-        <div className="md:hidden">
-          <X
-            width={35}
-            height={35}
-            onClick={() => {
-              setShowSidebar(false);
-            }}
-          />
-        </div>
-        <div className="w-full p-2 text-center md:flex md:gap-5 md:justify-around">
+      <nav className={`bg-primary`}>
+        <div className="w-full p-2 text-center flex gap-5 justify-around overflow-x-scroll md:overflow-hidden text-nowrap">
           <NavLink
             to="/"
             className={({ isActive }) =>
@@ -94,15 +79,8 @@ const Navbar = () => {
           </NavLink>
         </div>
       </nav>
-      <div className="bg-primary flex justify-between py-2 px-4 md:hidden">
+      <div className="bg-primary flex justify-end py-2 px-4 md:px-10">
         <Search width={35} height={35} />
-        <Rows4
-          width={35}
-          height={35}
-          onClick={() => {
-            setShowSidebar(true);
-          }}
-        />
       </div>
     </>
   );
