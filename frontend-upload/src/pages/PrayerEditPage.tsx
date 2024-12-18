@@ -80,6 +80,7 @@ export function EditHeadingContent() {
       const response = await axios.get(url + "/prayers/" + id);
       return response.data;
     },
+    refetchOnWindowFocus: false,
     onSuccess: (data) => {
       setSinglePrayerPayload(data);
     },
