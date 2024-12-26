@@ -9,11 +9,11 @@ import {
 } from "../controllers/prayerController.mjs";
 import { uploadImageMiddleware } from "../utils/cloudinaryMiddleware.mjs";
 
-export const router = express.Router();
+export const prayerRouter = express.Router();
 
-router.get("/prayers", getAllPrayers);
-router.get("/prayers/:id", getOnePrayer);
-router.post("/prayers", uploadImageMiddleware, createNewPrayer);
-router.put("/prayers/:id", uploadImageMiddleware, editPrayer);
-router.delete("/prayers/:id", deletePrayer);
-router.get("/search", searchPrayer);
+prayerRouter.get("/prayers", getAllPrayers);
+prayerRouter.get("/prayers/:id", getOnePrayer);
+prayerRouter.post("/prayers", uploadImageMiddleware, createNewPrayer);
+prayerRouter.put("/prayers/:id", uploadImageMiddleware, editPrayer);
+prayerRouter.delete("/prayers/:id", deletePrayer);
+prayerRouter.get("/prayer-search", searchPrayer);

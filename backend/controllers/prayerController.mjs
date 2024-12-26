@@ -26,7 +26,6 @@ export const getOnePrayer = async (req, res) => {
 
 //Create new Prayer
 export const createNewPrayer = async (req, res) => {
-  console.log("Entered path");
   const { prayerHeading, prayerContent } = req.body;
   if (!prayerHeading || !prayerContent) {
     return res.status(400).json({
@@ -36,14 +35,12 @@ export const createNewPrayer = async (req, res) => {
   try {
     const files = req.files;
     const fileUrls = files.map((file) => file.path); // Cloudinary URLs
-    console.log(fileUrls);
     const prayerPayload = {
       prayerHeading,
       prayerContent,
       prayerImages: fileUrls,
     };
     const newPrayer = new Prayer(prayerPayload);
-    console.log(newPrayer);
     const insertedPrayer = await newPrayer.save();
     return res.status(201).json(insertedPrayer);
   } catch (error) {
@@ -121,7 +118,6 @@ export const searchPrayer = async (req, res) => {
       data: results,
     });
   } catch (error) {
-    console.log(error);
     return res.status(500).json({
       message: "Internal Server error",
     });

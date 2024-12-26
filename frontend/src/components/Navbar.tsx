@@ -80,7 +80,12 @@ const Navbar = () => {
         </div>
       </nav>
       <div className="bg-primary flex justify-end py-2 px-4 md:px-10">
-        <Search width={35} height={35} />
+        <NavLink
+          to="/prayer-search"
+          className={({ isActive }) => (isActive ? "hidden" : "")}
+        >
+          <Search width={35} height={35} />
+        </NavLink>
       </div>
     </>
   );

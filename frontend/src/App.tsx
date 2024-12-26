@@ -6,6 +6,7 @@ import Holymasspage from "./pages/HolyMasspage";
 import HolyEucharistpage from "./pages/HolyEucharistpage";
 import Saintspage from "./pages/Saintspage";
 import Biblepage from "./pages/Biblepage";
+import SearchPrayerpage from "./pages/SearchPrayerpage";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/bible" element={<Biblepage />} />
           <Route path="/prayers" element={<Prayerpage />} />
           <Route path="/prayers/:id" element={<EachPrayer />} />
+          <Route path="/prayer-search" element={<SearchPrayerpage />} />
         </Route>
       </Routes>
     </BrowserRouter>

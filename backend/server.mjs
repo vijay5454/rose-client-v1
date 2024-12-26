@@ -2,8 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import "dotenv/config";
 import cors from "cors";
-import { Prayer } from "./models/prayers.mjs";
-import { router as prayerRoutes } from "./routes/prayerRoutes.mjs";
+import { prayerRouter } from "./routes/prayerRoutes.mjs";
 
 const app = express();
 const port = process.env.PORT || 5001;
@@ -17,7 +16,7 @@ app.get("/", (req, res) => {
   });
 });
 
-app.use("/", prayerRoutes);
+app.use("/", prayerRouter);
 
 const serverStart = async () => {
   try {
