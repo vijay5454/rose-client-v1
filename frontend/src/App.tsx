@@ -10,6 +10,8 @@ import SearchPrayerpage from "./pages/SearchPrayerpage";
 import AboutPage from "./pages/AboutUspage";
 import TableofContent from "./pages/TableofContentspage";
 import Testimony from "./pages/Testimonypage";
+import PrayerRequest from "./pages/PrayerRequestpage";
+import Videospage from "./pages/Videospage";
 
 function App() {
   return (
@@ -31,6 +33,8 @@ function App() {
             path="/prayer-search/:keyword"
             element={<SearchPrayerpage />}
           />
+          <Route path="/prayer-request" element={<PrayerRequest />} />
+          <Route path="/videos" element={<Videospage />} />
         </Route>
       </Routes>
     </BrowserRouter>
