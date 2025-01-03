@@ -7,6 +7,9 @@ import HolyEucharistpage from "./pages/HolyEucharistpage";
 import Saintspage from "./pages/Saintspage";
 import Biblepage from "./pages/Biblepage";
 import SearchPrayerpage from "./pages/SearchPrayerpage";
+import AboutPage from "./pages/AboutUspage";
+import TableofContent from "./pages/TableofContentspage";
+import Testimony from "./pages/Testimonypage";
 
 function App() {
   return (
@@ -15,13 +18,19 @@ function App() {
         <Route element={<Navlayout />}>
           <Route index element={<Homepage />} />
           <Route path="/prayers" element={<Prayerpage />} />
+          <Route path="/table-of-content" element={<TableofContent />} />
+          <Route path="/about-us" element={<AboutPage />} />
+          <Route path="/testimonies" element={<Testimony />} />
           <Route path="/holy-mass" element={<Holymasspage />} />
           <Route path="/holy-eucharist" element={<HolyEucharistpage />} />
           <Route path="/saints" element={<Saintspage />} />
           <Route path="/bible" element={<Biblepage />} />
           <Route path="/prayers" element={<Prayerpage />} />
           <Route path="/prayers/:id" element={<EachPrayer />} />
-          <Route path="/prayer-search" element={<SearchPrayerpage />} />
+          <Route
+            path="/prayer-search/:keyword"
+            element={<SearchPrayerpage />}
+          />
         </Route>
       </Routes>
     </BrowserRouter>

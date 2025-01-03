@@ -1,8 +1,19 @@
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import img1 from "../assets/anthusmedia.png";
 import { Search } from "lucide-react";
+import { useState } from "react";
+import { toast, Toaster } from "sonner";
 
 const Navbar = () => {
+  const [keyword, setKeyword] = useState("");
+  const navigate = useNavigate();
+  const handleSearch = () => {
+    if (keyword === "") {
+      toast.error("Please enter some keyword!");
+    }
+    navigate(`/prayer-search/${keyword}`);
+    setKeyword("");
+  };
   return (
     <>
       <div className="bg-primary">
@@ -28,65 +39,62 @@ const Navbar = () => {
             <p className="font-bold text-xl">Home</p>
           </NavLink>
           <NavLink
-            to="/prayers"
+            to="/about-us"
             className={({ isActive }) =>
               isActive
                 ? "border-b-secondary border-b-4"
                 : "border-b-4 border-b-primary"
             }
           >
-            <p className="font-bold text-xl">Prayers</p>
+            <p className="font-bold text-xl">About us</p>
           </NavLink>
           <NavLink
-            to="/holy-mass"
+            to="/table-of-content"
             className={({ isActive }) =>
               isActive
                 ? "border-b-secondary border-b-4"
                 : "border-b-4 border-b-primary"
             }
           >
-            <p className="font-bold text-xl">Holy Mass</p>
+            <p className="font-bold text-xl">Table of Contents</p>
           </NavLink>
           <NavLink
-            to="/holy-eucharist"
+            to="/testimonies"
             className={({ isActive }) =>
               isActive
                 ? "border-b-secondary border-b-4"
                 : "border-b-4 border-b-primary"
             }
           >
-            <p className="font-bold text-xl">Holy Eucharist</p>
-          </NavLink>
-          <NavLink
-            to="/saints"
-            className={({ isActive }) =>
-              isActive
-                ? "border-b-secondary border-b-4"
-                : "border-b-4 border-b-primary"
-            }
-          >
-            <p className="font-bold text-xl">Saints</p>
-          </NavLink>
-          <NavLink
-            to="/bible"
-            className={({ isActive }) =>
-              isActive
-                ? "border-b-secondary border-b-4"
-                : "border-b-4 border-b-primary"
-            }
-          >
-            <p className="font-bold text-xl">Bible</p>
+            <p className="font-bold text-xl">Testimony</p>
           </NavLink>
         </div>
       </nav>
-      <div className="bg-primary flex justify-end py-2 px-4 md:px-10">
-        <NavLink
-          to="/prayer-search"
-          className={({ isActive }) => (isActive ? "hidden" : "")}
-        >
-          <Search width={35} height={35} />
-        </NavLink>
+      <div className="bg-primary flex justify-center items-center py-2 px-4 md:px-10 gap-5">
+        <div className="w-full md:w-[30%]">
+          <input
+            id="search"
+            type="text"
+            placeholder="Type something..."
+            className="px-4 py-2 w-full rounded-md border border-secondary outline-2 outline-secondary"
+            value={keyword}
+            onChange={(e) => {
+              setKeyword(e.target.value);
+            }}
+            onKeyDown={(e) => {
+              if (keyword === "" && e.key === "Enter") {
+                toast.error("Please enter some keyword!");
+              }
+              if (e.key === "Enter" && keyword !== "") {
+                navigate(`/prayer-search/${keyword}`);
+                setKeyword("");
+              }
+            }}
+          />
+        </div>
+        <Search width={35} height={35} onClick={handleSearch} />
       </div>
+      <Toaster />
     </>
   );
 };
