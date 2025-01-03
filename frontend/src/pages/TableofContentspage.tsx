@@ -2,9 +2,6 @@ import { Link } from "react-router";
 import {
   Table,
   TableBody,
-  TableCaption,
-  TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -75,7 +72,7 @@ const TableofContent = () => {
               return (
                 <TableRow>
                   <TableHead>{index + 1}</TableHead>
-                  <TableHead className="underline text-pretty text-nowrap">
+                  <TableHead className="underline text-nowrap">
                     <Link to={eachContent.pathName}>
                       {eachContent.pageName}
                     </Link>
