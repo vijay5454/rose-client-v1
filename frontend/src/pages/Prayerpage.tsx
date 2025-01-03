@@ -4,6 +4,7 @@ import parse from "html-react-parser";
 import axios from "axios";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { ImageComponent } from "../components/ImageComponent";
 
 type Prayer = {
   _id: string;
@@ -117,24 +118,6 @@ export const EachPrayer = () => {
       </div>
     </section>
   );
-};
-
-const ImageComponent = (props: { images: string[] }) => {
-  const images = props.images;
-  return images.map((eachImage, index) => {
-    return (
-      <div
-        key={index}
-        className="mb-4 rounded-md overflow-hidden mx-auto md:w-[35%] md:h-[35%]"
-      >
-        <img
-          src={eachImage}
-          alt="prayerImages"
-          className="w-full h-full object-cover"
-        />
-      </div>
-    );
-  });
 };
 
 export default Prayerpage;
