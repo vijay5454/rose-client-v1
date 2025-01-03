@@ -68,7 +68,7 @@ const Homepage = () => {
         <ImageComponent images={todayReading.readingImages} />
       )}
       <div className="md:mt-2 space-y-2 text-center">
-        {todayReading.readingContent}
+        {parse(todayReading.readingContent)}
       </div>
     </section>
   );
