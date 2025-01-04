@@ -5,6 +5,7 @@ import cors from "cors";
 import { prayerRouter } from "./routes/prayerRoutes.mjs";
 import { readingRouter } from "./routes/readingRoutes.mjs";
 import { testimoniesRouter } from "./routes/testimoniesRoutes.mjs";
+import { prayerRequestRouter } from "./routes/prayerRequestRoutes.mjs";
 
 const app = express();
 const port = process.env.PORT || 5001;
@@ -21,6 +22,7 @@ app.get("/", (req, res) => {
 app.use("/", prayerRouter);
 app.use("/", readingRouter);
 app.use("/", testimoniesRouter);
+app.use("/", prayerRequestRouter);
 
 const serverStart = async () => {
   try {
