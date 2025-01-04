@@ -10,6 +10,7 @@ const Navbar = () => {
   const handleSearch = () => {
     if (keyword === "") {
       toast.error("Please enter some keyword!");
+      return;
     }
     navigate(`/prayer-search/${keyword}`);
     setKeyword("");
