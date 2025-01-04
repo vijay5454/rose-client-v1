@@ -12,6 +12,9 @@ const HomePage = () => {
           <li>
             <Link to="/prayer-edit">Click to edit Prayers</Link>
           </li>
+          <li>
+            <Link to="/reading-upload">Click to edit today's reading.</Link>
+          </li>
         </div>
       </div>
     </div>
