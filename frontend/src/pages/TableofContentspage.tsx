@@ -58,8 +58,8 @@ const TableofContent = () => {
       <h1 className="text-xl md:text-2xl font-semibold py-2">
         Table of Content
       </h1>
-      <div className="w-full md:max-w-[80%] mx-auto overflow-hidden">
-        <Table>
+      <div className="w-full md:max-w-[80%] mx-auto">
+        <Table className="overflow-hidden">
           <TableHeader>
             <TableRow>
               <TableHead>S.No</TableHead>
