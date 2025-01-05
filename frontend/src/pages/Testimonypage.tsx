@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useState } from "react";
 import YouTubeEmbed from "../components/YoutubeEmbed";
 import parse from "html-react-parser";
@@ -9,6 +9,10 @@ export type Testimony = {
   testimoniesContent: string;
   testimoniesURL: string[];
 };
+
+interface ErrorResponse {
+  message: string;
+}
 
 const url = import.meta.env.VITE_API_URL;
 
@@ -27,7 +31,7 @@ const Testimony = () => {
     return response.data;
   };
 
-  const { isLoading, error, isFetching } = useQuery({
+  const { isLoading, error, isFetching } = useQuery<Testimony[], AxiosError>({
     queryKey: ["fetchAllTestimonies"],
     queryFn: fetchAllTestimonies,
   });
@@ -36,6 +40,18 @@ const Testimony = () => {
     return (
       <section className="min-h-[81vh] md:min-h-[80vh] bg-secondary p-2 md:p-8">
         <h3>Loading...</h3>
+      </section>
+    );
+  }
+
+  const errorResponse = (error?.response?.data as ErrorResponse)?.message;
+
+  console.log(errorResponse);
+
+  if (errorResponse === "No testimonies found!") {
+    return (
+      <section className="min-h-[81vh] md:min-h-[80vh] bg-secondary p-2 md:p-8">
+        <h3>No testimonies Found!</h3>
       </section>
     );
   }
