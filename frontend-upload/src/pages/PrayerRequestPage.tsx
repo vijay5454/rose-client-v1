@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useState } from "react";
 
 type PrayerRequest = {
@@ -7,6 +7,10 @@ type PrayerRequest = {
   email: string;
   prayerRequest: string;
 };
+
+interface ErrorResponse {
+  message: string;
+}
 
 const url = import.meta.env.VITE_API_URL;
 
@@ -25,7 +29,10 @@ const PrayerRequestPage = () => {
     return response.data;
   };
 
-  const { isLoading, error, isFetching } = useQuery({
+  const { isLoading, error, isFetching } = useQuery<
+    PrayerRequest[],
+    AxiosError
+  >({
     queryKey: ["fetchAllPrayerRequest"],
     queryFn: fetchAllPrayerRequest,
   });
@@ -38,6 +45,15 @@ const PrayerRequestPage = () => {
     );
   }
 
+  const errorResponse = (error?.response?.data as ErrorResponse).message;
+
+  if (errorResponse === "No Prayer Request Found!") {
+    return (
+      <section className="min-h-[81vh] md:min-h-[80vh] bg-secondary p-2 md:p-8">
+        <h3>No Prayer Requests found.</h3>
+      </section>
+    );
+  }
   if (error) {
     return (
       <section className="min-h-[81vh] md:min-h-[80vh] bg-secondary p-2 md:p-8">
