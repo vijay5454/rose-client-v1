@@ -18,6 +18,11 @@ const HomePage = () => {
           <li>
             <Link to="/testimonies-upload">Click to upload new testimony</Link>
           </li>
+          <li>
+            <Link to="/prayer-request">
+              Click to view all the prayer requests.
+            </Link>
+          </li>
         </div>
       </div>
     </div>

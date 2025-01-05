@@ -4,6 +4,7 @@ import PrayerUploadPage from "./pages/PrayerUploadPage";
 import PrayerEditPage, { EditHeadingContent } from "./pages/PrayerEditPage";
 import ReadingUploadPage from "./pages/ReadingUploadPage";
 import TestimoniesUploadPage from "./pages/TestimoniesUploadPage";
+import PrayerRequestPage from "./pages/PrayerRequestPage";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Route path="/reading-upload" element={<ReadingUploadPage />} />
       <Route path="/prayer-edit" element={<PrayerEditPage />} />
       <Route path="/testimonies-upload" element={<TestimoniesUploadPage />} />
+      <Route path="/prayer-request" element={<PrayerRequestPage />} />
       <Route path="/prayer-edit/:id" element={<EditHeadingContent />} />
     </Routes>
   );
