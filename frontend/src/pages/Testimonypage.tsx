@@ -1,8 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { useState } from "react";
-import YouTubeEmbed from "../components/YoutubeEmbed";
-import parse from "html-react-parser";
 import { Link, useParams } from "react-router";
 
 export type Testimony = {
