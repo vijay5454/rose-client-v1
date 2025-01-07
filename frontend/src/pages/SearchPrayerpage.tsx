@@ -27,18 +27,16 @@ const SearchPrayerpage = () => {
   }, [keyword]);
   return (
     <section className="min-h-[81vh] md:min-h-[80vh] bg-secondary p-2 md:p-8">
-      <h2 className="text-center font-semibold text-2xl mb-2">Search</h2>
+      <h2 className="text-center font-semibold mb-2">Search</h2>
       {foundList.length !== 0 && (
-        <h3 className="font-semibold text-xl mt-3 pl-3 md:pl-6">
-          Search Results
-        </h3>
+        <h3 className="font-semibold mt-3 pl-3 md:pl-6">Search Results</h3>
       )}
       {foundList.length === 0 && (
-        <h3 className="font-semibold text-xl mt-3 pl-3 md:pl-6 text-center">
+        <h3 className="font-semibold mt-3 pl-3 md:pl-6 text-center">
           {responseText}
         </h3>
       )}
-      <div className="p-3 md:p-6 md:text-lg md:max-w-[50%] flex flex-col gap-2">
+      <div className="p-3 md:p-6 md:max-w-[50%] flex flex-col gap-2">
         <ul>
           {foundList.map((eachResult) => {
             return (

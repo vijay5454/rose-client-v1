@@ -55,11 +55,9 @@ const pagesContent = [
 const TableofContent = () => {
   return (
     <section className="min-h-[81vh] md:min-h-[80vh] bg-secondary p-2 pb-20 md:p-8">
-      <h1 className="text-xl md:text-2xl font-semibold py-2">
-        Table of Content
-      </h1>
-      <div className="w-full md:max-w-[80%] mx-auto">
-        <Table className="overflow-hidden">
+      <h1 className="font-semibold py-2">Table of Content</h1>
+      <div className="w-full">
+        <Table className="overflow-hidden md:text-base">
           <TableHeader>
             <TableRow>
               <TableHead>S.No</TableHead>

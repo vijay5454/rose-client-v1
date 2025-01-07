@@ -3,8 +3,10 @@ import axios, { AxiosError } from "axios";
 import { useState } from "react";
 import YouTubeEmbed from "../components/YoutubeEmbed";
 import parse from "html-react-parser";
+import { Link, useParams } from "react-router";
 
 export type Testimony = {
+  _id: string;
   testimoniesHeading: string;
   testimoniesContent: string;
   testimoniesURL: string[];
@@ -19,6 +21,7 @@ const url = import.meta.env.VITE_API_URL;
 const Testimony = () => {
   const [testimonies, setTestimonies] = useState<Testimony[]>([
     {
+      _id: "",
       testimoniesContent: "",
       testimoniesHeading: "",
       testimoniesURL: [],
@@ -64,8 +67,8 @@ const Testimony = () => {
 
   return (
     <section className="min-h-[81vh] md:min-h-[80vh] bg-secondary p-2 md:p-8">
-      <h1 className="text-2xl font-semibold text-center">Testimonies</h1>
-      <div className="md:max-w-[80%] md:mx-auto mt-3 space-y-3">
+      <h1 className="font-semibold text-center">Testimonies</h1>
+      {/* <div className="md:max-w-[80%] md:mx-auto mt-3 space-y-3">
         {testimonies.map((eachTestimony: Testimony) => {
           return (
             <>
@@ -81,7 +84,26 @@ const Testimony = () => {
             </>
           );
         })}
+      </div> */}
+      <div className="p-3 md:p-6 md:max-w-[50%] flex flex-col gap-2">
+        {testimonies.map((eachTestimony, index) => {
+          return (
+            <Link to={`/testimonies/${eachTestimony._id}`} key={index}>
+              <li className="underline">{eachTestimony.testimoniesHeading}</li>
+            </Link>
+          );
+        })}
       </div>
+    </section>
+  );
+};
+
+export const EachTestimony = () => {
+  const { id } = useParams();
+  console.log(id);
+  return (
+    <section className="min-h-[81vh] md:min-h-[80vh] bg-secondary p-2 md:p-8">
+      <h3>Each Testimony</h3>
     </section>
   );
 };

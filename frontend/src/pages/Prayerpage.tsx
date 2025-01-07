@@ -46,11 +46,11 @@ const Prayerpage = () => {
 
   return (
     <section className="min-h-[81vh] md:min-h-[80vh] bg-secondary p-2 pb-20 md:p-8">
-      <h1 className="text-xl md:text-2xl font-semibold py-2">Prayer List</h1>
+      <h1 className="font-semibold py-2 text-center">Prayer List</h1>
       {prayersData.length === 0 ? (
         <h1>No Prayers Found!</h1>
       ) : (
-        <div className="p-3 md:p-6 md:text-lg md:max-w-[50%] flex flex-col gap-2">
+        <div className="p-3 md:p-6 md:max-w-[50%] flex flex-col gap-2">
           {prayersData.map((eachPrayerData, index) => {
             return (
               <Link to={`/prayers/${eachPrayerData._id}`} key={index}>
@@ -105,7 +105,7 @@ export const EachPrayer = () => {
   return (
     <section className="min-h-[81vh] md:min-h-[80vh] bg-secondary p-2 md:p-8">
       <div className="md:max-w-[85%] mx-auto mb-20 md:mb-0">
-        <h1 className="text-xl md:text-2xl font-semibold py-2 text-center">
+        <h1 className="font-semibold py-2 text-center">
           {singlePrayer.prayerHeading}
         </h1>
         {singlePrayer.prayerImages.length !== 0 && (

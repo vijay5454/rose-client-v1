@@ -9,7 +9,7 @@ import Biblepage from "./pages/Biblepage";
 import SearchPrayerpage from "./pages/SearchPrayerpage";
 import AboutPage from "./pages/AboutUspage";
 import TableofContent from "./pages/TableofContentspage";
-import Testimony from "./pages/Testimonypage";
+import Testimony, { EachTestimony } from "./pages/Testimonypage";
 import PrayerRequest from "./pages/PrayerRequestpage";
 import Videospage from "./pages/Videospage";
 
@@ -23,6 +23,7 @@ function App() {
           <Route path="/table-of-content" element={<TableofContent />} />
           <Route path="/about-us" element={<AboutPage />} />
           <Route path="/testimonies" element={<Testimony />} />
+          <Route path="/testimonies/:id" element={<EachTestimony />} />
           <Route path="/holy-mass" element={<Holymasspage />} />
           <Route path="/holy-eucharist" element={<HolyEucharistpage />} />
           <Route path="/saints" element={<Saintspage />} />

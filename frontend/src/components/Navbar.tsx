@@ -37,7 +37,7 @@ const Navbar = () => {
                 : "border-b-4 border-b-primary"
             }
           >
-            <p className="font-bold text-xl">Home</p>
+            <p className="font-bold">Home</p>
           </NavLink>
           <NavLink
             to="/about-us"
@@ -47,7 +47,7 @@ const Navbar = () => {
                 : "border-b-4 border-b-primary"
             }
           >
-            <p className="font-bold text-xl">About us</p>
+            <p className="font-bold">About us</p>
           </NavLink>
           <NavLink
             to="/table-of-content"
@@ -57,7 +57,7 @@ const Navbar = () => {
                 : "border-b-4 border-b-primary"
             }
           >
-            <p className="font-bold text-xl">Table of Contents</p>
+            <p className="font-bold">Table of Contents</p>
           </NavLink>
           <NavLink
             to="/testimonies"
@@ -67,7 +67,7 @@ const Navbar = () => {
                 : "border-b-4 border-b-primary"
             }
           >
-            <p className="font-bold text-xl">Testimony</p>
+            <p className="font-bold">Testimony</p>
           </NavLink>
         </div>
       </nav>

@@ -4,7 +4,7 @@ export const ImageComponent = (props: { images: string[] }) => {
     return (
       <div
         key={index}
-        className="mb-4 rounded-md overflow-hidden mx-auto md:w-[35%] md:h-[35%]"
+        className="mb-4 rounded-md overflow-hidden mx-auto md:w-[50%]"
       >
         <img
           src={eachImage}

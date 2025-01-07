@@ -39,7 +39,7 @@ const PrayerRequest = () => {
   };
   return (
     <section className="min-h-[81vh] md:min-h-[80vh] bg-secondary p-2 md:p-8">
-      <h1 className="text-2xl font-bold text-center mb-3">Prayer Request</h1>
+      <h1 className="font-bold text-center mb-3">Prayer Request</h1>
       <div className="flex flex-col gap-3 md:max-w-[50%] md:mx-auto">
         <input
           type="text"

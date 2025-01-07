@@ -58,10 +58,8 @@ const Homepage = () => {
 
   return (
     <section className="min-h-[81vh] md:min-h-[80vh] bg-secondary p-2 md:p-8 space-y-3">
-      <h1 className="text-2xl font-bold">
-        Today's Mass Reading - {formattedDate}
-      </h1>
-      <h3 className="text-xl font-semibold text-center">
+      <h1 className="font-bold">Today's Mass Reading - {formattedDate}</h1>
+      <h3 className="font-semibold text-center">
         {todayReading.readingHeading}
       </h3>
       {todayReading.readingImages.length !== 0 && (
