@@ -95,7 +95,14 @@ const Navbar = () => {
         </div>
         <Search width={35} height={35} onClick={handleSearch} />
       </div>
-      <Toaster />
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          classNames: {
+            toast: "bg-secondary",
+          },
+        }}
+      />
     </>
   );
 };

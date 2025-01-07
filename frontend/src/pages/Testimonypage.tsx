@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { useState } from "react";
 import { Link, useParams } from "react-router";
+import YouTubeEmbed from "../components/YoutubeEmbed";
 
 export type Testimony = {
   _id: string;
@@ -98,10 +99,56 @@ const Testimony = () => {
 
 export const EachTestimony = () => {
   const { id } = useParams();
-  console.log(id);
+  const [singleTestimony, setSingleTestimony] = useState<Testimony>({
+    _id: "",
+    testimoniesContent: "",
+    testimoniesHeading: "",
+    testimoniesURL: [],
+  });
+
+  const fetchTestimonyById = async () => {
+    const response = await axios.get(url + "/testimonies/" + id);
+    return response.data;
+  };
+
+  const { isLoading, error, isFetching } = useQuery({
+    queryKey: ["fetchSinglePrayer"],
+    queryFn: fetchTestimonyById,
+    onSuccess: (data) => {
+      setSingleTestimony(data);
+    },
+  });
+
+  if (isLoading || isFetching) {
+    return (
+      <section className="min-h-[81vh] md:min-h-[80vh] bg-secondary p-2 md:p-8">
+        <h3>Loading...</h3>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="min-h-[81vh] md:min-h-[80vh] bg-secondary p-2 md:p-8">
+        <h3>Error happened.</h3>
+      </section>
+    );
+  }
   return (
     <section className="min-h-[81vh] md:min-h-[80vh] bg-secondary p-2 md:p-8">
-      <h3>Each Testimony</h3>
+      <div className="md:max-w-[85%] mx-auto mb-20 md:mb-0">
+        <h1 className="font-semibold py-2 text-center">
+          {singleTestimony.testimoniesHeading}
+        </h1>
+        {singleTestimony.testimoniesURL.length !== 0 && (
+          <YouTubeEmbed shareUrl={singleTestimony.testimoniesURL[0]} />
+        )}
+        {singleTestimony.testimoniesContent && (
+          <div className="md:mt-2 space-y-2 text-center">
+            {singleTestimony.testimoniesContent}
+          </div>
+        )}
+      </div>
     </section>
   );
 };

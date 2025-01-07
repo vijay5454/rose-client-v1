@@ -32,3 +32,15 @@ export async function createNewTestimony(req, res) {
     });
   }
 }
+
+export async function fetchTestimonyUsingId(req, res) {
+  const { id } = req.params;
+  try {
+    const singleTestimony = await Testimonies.findById(id);
+    return res.status(200).json(singleTestimony);
+  } catch (error) {
+    return res.status(404).json({
+      message: "Testimony for the id not found!",
+    });
+  }
+}
