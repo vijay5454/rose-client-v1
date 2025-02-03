@@ -1,7 +1,15 @@
 const YouTubeEmbed = ({ shareUrl }: { shareUrl: string }) => {
+  // Function to extract the YouTube video ID
+  const extractVideoId = (url: string) => {
+    const regex =
+      /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/|youtube\.com\/live\/)([^"&?\/\s]{11})/;
+    const match = url.match(regex);
+    return match ? match[1] : null;
+  };
   // Extract the video ID from the share URL
-  const videoId = shareUrl.split("youtu.be/")[1]; // Extract ID from "https://youtu.be/VIDEO_ID"
+  const videoId = extractVideoId(shareUrl); // Extract ID from "https://youtu.be/VIDEO_ID"
   const embedUrl = `https://www.youtube.com/embed/${videoId}`;
+  // console.log("Embed URL", embedUrl);
 
   return (
     <div style={{ position: "relative", paddingTop: "56.25%" }}>
