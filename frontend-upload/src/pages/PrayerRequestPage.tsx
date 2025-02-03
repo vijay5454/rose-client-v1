@@ -45,7 +45,7 @@ const PrayerRequestPage = () => {
     );
   }
 
-  const errorResponse = (error?.response?.data as ErrorResponse).message;
+  const errorResponse = (error?.response?.data as ErrorResponse)?.message;
 
   if (errorResponse === "No Prayer Request Found!") {
     return (
