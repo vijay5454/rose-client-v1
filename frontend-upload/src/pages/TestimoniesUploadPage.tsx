@@ -5,6 +5,7 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 
 export type Testimony = {
+  _id?: string;
   testimoniesHeading: string;
   testimoniesContent: string;
   testimoniesURL: string[];
@@ -13,6 +14,7 @@ export type Testimony = {
 const TestimoniesUploadPage = () => {
   const url = import.meta.env.VITE_API_URL;
   const [testimoniesPayload, setTestimoniesPayload] = useState<Testimony>({
+    _id: "",
     testimoniesHeading: "",
     testimoniesContent: "",
     testimoniesURL: [],

@@ -13,10 +13,13 @@ const HomePage = () => {
             <Link to="/prayer-edit">Click to edit Prayers</Link>
           </li>
           <li>
-            <Link to="/reading-upload">Click to upload today's reading</Link>
+            <Link to="/testimonies-upload">Click to upload new testimony</Link>
           </li>
           <li>
-            <Link to="/testimonies-upload">Click to upload new testimony</Link>
+            <Link to="/testimony-edit">Click to edit testimonies</Link>
+          </li>
+          <li>
+            <Link to="/reading-upload">Click to upload today's reading</Link>
           </li>
           <li>
             <Link to="/prayer-request">

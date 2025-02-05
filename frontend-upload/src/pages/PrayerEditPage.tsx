@@ -61,7 +61,7 @@ function PrayerEditPage() {
   );
 }
 
-export function EditHeadingContent() {
+export function EditPrayer() {
   //Getting Params from the url
   const { id } = useParams();
   //State to hold single prayer for edit/delete.

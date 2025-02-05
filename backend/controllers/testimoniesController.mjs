@@ -44,3 +44,53 @@ export async function fetchTestimonyUsingId(req, res) {
     });
   }
 }
+
+export async function editTestimonyUsingId(req, res) {
+  const { id } = req.params;
+  const { testimoniesHeading, testimoniesContent, testimoniesURL } = req.body;
+  if (!id || !testimoniesHeading || !testimoniesContent || !testimoniesURL) {
+    return res.status(400).json({
+      message: "Bad Request.",
+    });
+  }
+  try {
+    const singleTestimony = await Testimonies.findByIdAndUpdate(
+      id,
+      {
+        testimoniesHeading,
+        testimoniesContent,
+        testimoniesURL,
+      },
+      {
+        new: true,
+      }
+    );
+    if (!singleTestimony) {
+      return res.status(404).json({
+        message: "Can't able to update the testimonies",
+      });
+    }
+    return res.status(200).json({
+      message: `Successfully updated the testimony with id ${id}`,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Error happened while updating testimonies",
+      error: Error,
+    });
+  }
+}
+
+//Delete a Testimony using id
+export const deleteTestimony = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const deletedTestimony = await Testimonies.findByIdAndDelete(id);
+    if (!deletedTestimony) {
+      return res.status(404).json({ message: "Testimony Not Found" });
+    }
+    return res.status(200).json(deletedTestimony);
+  } catch (error) {
+    return res.status(400).json({ message: "Error happened", Error: error });
+  }
+};
