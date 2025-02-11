@@ -60,16 +60,14 @@ const TableofContent = () => {
         <Table className="overflow-hidden md:text-base">
           <TableHeader>
             <TableRow>
-              <TableHead>S.No</TableHead>
               <TableHead>Pages</TableHead>
               <TableHead>Description</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {pagesContent.map((eachContent, index) => {
+            {pagesContent.map((eachContent) => {
               return (
-                <TableRow>
-                  <TableHead>{index + 1}</TableHead>
+                <TableRow key={eachContent.pageName}>
                   <TableHead className="underline text-nowrap">
                     <Link to={eachContent.pathName}>
                       {eachContent.pageName}

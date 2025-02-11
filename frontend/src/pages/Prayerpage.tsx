@@ -114,7 +114,7 @@ export const EachPrayer = () => {
         <div className="md:mt-2 space-y-2 text-center">
           {parse(singlePrayer.prayerContent)}
         </div>
-        <p className="font-semibold text-center md:mt-2">Amen.</p>
+        {/* <p className="font-semibold text-center md:mt-2">Amen.</p> */}
       </div>
     </section>
   );
