@@ -3,7 +3,7 @@ import { AppWindow, Mail, Phone, Youtube } from "lucide-react";
 const ContactDetails = () => {
   return (
     <div className="p-4 bg-primary">
-      <address className="max-w-[80%] mx-auto not-italic">
+      <address className="md:max-w-[80%] md:mx-auto not-italic">
         <p className="font-bold">
           Rosa Carmeli Retreat Center | Catholic Charismatic Prayer Group
         </p>
